@@ -43,7 +43,7 @@ describe("generateArcFromSweep semicircle tolerance", () => {
     }
   })
 
-  test("still returns a flat chord when the radius is genuinely too small", () => {
+  test("scales a too-small radius up to a semicircle like SVG", () => {
     const route = generateArcFromSweep({
       start: { x: 0, y: 0 },
       end: { x: 10, y: 0 },
@@ -52,9 +52,28 @@ describe("generateArcFromSweep semicircle tolerance", () => {
       sweepFlag: false,
     })
 
-    expect(route).toHaveLength(2)
-    expect(route[0]).toEqual({ x: 0, y: 0 })
-    expect(route[1]).toEqual({ x: 10, y: 0 })
+    expect(route.length).toBeGreaterThan(2)
+    expect(route[0]!.x).toBeCloseTo(0, 9)
+    expect(route[0]!.y).toBeCloseTo(0, 9)
+    expect(route.at(-1)!.x).toBeCloseTo(10, 9)
+    expect(route.at(-1)!.y).toBeCloseTo(0, 9)
+    const ys = route.map(({ y }) => y)
+    expect(Math.max(...ys.map(Math.abs))).toBeCloseTo(5, 6)
+  })
+
+  test("still returns a flat chord for a zero radius", () => {
+    const route = generateArcFromSweep({
+      start: { x: 0, y: 0 },
+      end: { x: 10, y: 0 },
+      radius: 0,
+      largeArcFlag: false,
+      sweepFlag: false,
+    })
+
+    expect(route).toEqual([
+      { x: 0, y: 0 },
+      { x: 10, y: 0 },
+    ])
   })
 
   test("still returns a flat chord for a zero-length path", () => {

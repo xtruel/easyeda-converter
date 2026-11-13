@@ -105,7 +105,7 @@ This command draws an arc starting at (3923.0512, 2968.5197) and ending at (3923
 export function generateArcFromSweep({
   start,
   end,
-  radius,
+  radius: requestedRadius,
   largeArcFlag,
   sweepFlag,
   maxSegments = MAX_EASYEDA_PATH_POINTS - 1,
@@ -120,7 +120,7 @@ export function generateArcFromSweep({
   const { x: startX, y: startY } = start
   const { x: endX, y: endY } = end
   if (
-    ![startX, startY, endX, endY, radius].every(Number.isFinite) ||
+    ![startX, startY, endX, endY, requestedRadius].every(Number.isFinite) ||
     !Number.isInteger(maxSegments) ||
     maxSegments < 1
   ) {
@@ -136,13 +136,20 @@ export function generateArcFromSweep({
   const dy = endY - startY
   const distance = Math.sqrt(dx * dx + dy * dy)
 
-  // If the distance is zero or the radius is too small, return a straight line.
-  // A relative tolerance is required because an exact semicircle (chord == 2r)
-  // can compute as radius < distance / 2 purely from floating-point error.
-  const maxRadius = distance / 2
-  if (distance === 0 || radius < maxRadius * (1 - 1e-9)) {
+  // Like SVG, treat zero-length arcs and zero radii as straight segments.
+  if (distance === 0 || requestedRadius === 0) {
     return [start, end]
   }
+  // SVG scales radii up until exactly one solution exists when the chord is
+  // longer than the diameter (SVG 1.1 F.6.6). EasyEDA data relies on this,
+  // e.g. semicircular notches whose endpoints are a little more than 2r apart.
+  // A relative tolerance keeps exact semicircles (chord == 2r up to
+  // floating-point error) on their original radius.
+  const maxRadius = distance / 2
+  const radius =
+    Math.abs(requestedRadius) < maxRadius * (1 - 1e-9)
+      ? maxRadius
+      : Math.abs(requestedRadius)
 
   // Calculate the center of the arc. Clamp the radicand: for a semicircle it
   // can evaluate to a tiny negative number and sqrt would yield NaN.
