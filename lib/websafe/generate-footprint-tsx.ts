@@ -21,6 +21,9 @@ const getLayerAttr = (layer: LayerRef | undefined) =>
 const getRotationAttr = (rotation: number | undefined) =>
   rotation ? ` pcbRotation="${rotation}deg"` : ""
 
+const getStrokeWidthAttr = (strokeWidth: number | undefined) =>
+  strokeWidth === undefined ? "" : ` strokeWidth="${mmStr(strokeWidth)}"`
+
 const getStringAttr = (name: string, value: string | undefined) =>
   value === undefined ? "" : ` ${name}=${JSON.stringify(value)}`
 
@@ -147,13 +150,13 @@ export const generateFootprintTsx = (
 
   for (const silkscreenPath of silkscreenPaths) {
     elementStrings.push(
-      `<silkscreenpath route={${JSON.stringify(silkscreenPath.route)}} />`,
+      `<silkscreenpath route={${JSON.stringify(silkscreenPath.route)}}${getStrokeWidthAttr(silkscreenPath.stroke_width)} />`,
     )
   }
 
   for (const silkscreenCircle of silkscreenCircles) {
     elementStrings.push(
-      `<silkscreencircle pcbX="${mmStr(silkscreenCircle.center.x)}" pcbY="${mmStr(silkscreenCircle.center.y)}" radius="${mmStr(silkscreenCircle.radius)}" />`,
+      `<silkscreencircle pcbX="${mmStr(silkscreenCircle.center.x)}" pcbY="${mmStr(silkscreenCircle.center.y)}" radius="${mmStr(silkscreenCircle.radius)}"${getStrokeWidthAttr(silkscreenCircle.stroke_width)} />`,
     )
   }
 

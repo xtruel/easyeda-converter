@@ -65,9 +65,9 @@ it("should convert C12084 into typescript file", async () => {
     <smtpad portHints={["pin3"]} pcbX="0.635mm" pcbY="-2.569972mm" width="0.58801mm" height="2.0450048mm" radius="0.294005mm" shape="pill" />
     <smtpad portHints={["pin2"]} pcbX="-0.635mm" pcbY="-2.569972mm" width="0.58801mm" height="2.0450048mm" radius="0.294005mm" shape="pill" />
     <smtpad portHints={["pin1"]} pcbX="-1.905mm" pcbY="-2.569972mm" width="0.58801mm" height="2.0450048mm" radius="0.294005mm" shape="pill" />
-    <silkscreenpath route={[{"x":-2.5262078000000656,"y":-1.5214091999999937},{"x":-2.5262078000000656,"y":1.5214092000001074},{"x":2.526207799999952,"y":1.5214092000001074},{"x":2.526207799999952,"y":-1.5214091999999937},{"x":-2.5262078000000656,"y":-1.5214091999999937}]} />
-    <silkscreencircle pcbX="-1.905mm" pcbY="-0.769112mm" radius="0.150114mm" />
-    <silkscreencircle pcbX="-2.651506mm" pcbY="-2.77241mm" radius="0.150114mm" />
+    <silkscreenpath route={[{"x":-2.5262078000000656,"y":-1.5214091999999937},{"x":-2.5262078000000656,"y":1.5214092000001074},{"x":2.526207799999952,"y":1.5214092000001074},{"x":2.526207799999952,"y":-1.5214091999999937},{"x":-2.5262078000000656,"y":-1.5214091999999937}]} strokeWidth="0.1524mm" />
+    <silkscreencircle pcbX="-1.905mm" pcbY="-0.769112mm" radius="0.150114mm" strokeWidth="0.2999994mm" />
+    <silkscreencircle pcbX="-2.651506mm" pcbY="-2.77241mm" radius="0.150114mm" strokeWidth="0.2999994mm" />
     <silkscreentext text="{NAME}" pcbX="-0.127mm" pcbY="4.302mm" anchorAlignment="center" fontSize="1mm" />
     <courtyardoutline outline={[{"x":-2.699982400000067,"y":3.8424744000000146},{"x":2.7000077999998666,"y":3.8424744000000146},{"x":2.7000077999998666,"y":-3.8424744000000146},{"x":-2.699982400000067,"y":-3.8424744000000146},{"x":-2.699982400000067,"y":3.8424744000000146}]} />
           </footprint>}
